@@ -76,7 +76,7 @@ export default function Analyzer() {
     formData.append('file', file)
     formData.append('job_description', jobDescription)
     try {
-      const res = await axios.post('http://127.0.0.1:8000/resume/analyze', formData)
+      const res = await axios.post('https://ai-resume-analyzer-backend-p6ni.onrender.com/resume/analyze', formData)
       setResult(res.data)
     } catch {
       setError('Something went wrong. Make sure the backend is running.')

@@ -478,7 +478,7 @@ export default function Builder() {
     formData.append('file', file)
     formData.append('job_description', jobDescription)
     try {
-      const res = await axios.post('http://127.0.0.1:8000/resume/build', formData)
+      const res = await axios.post('https://ai-resume-analyzer-backend-p6ni.onrender.com/resume/build', formData)
       setResult(res.data)
       setEditedResume(res.data.built_resume)
       // Auto-populate school section from AI extracted education data
@@ -513,9 +513,9 @@ if (schoolEntries.length > 0) {
         school_info: schoolInfo,
         is_fresher: isFresher
       }
-      const res = await axios.post('http://127.0.0.1:8000/resume/generate-final-pdf', payload)
+      const res = await axios.post('https://ai-resume-analyzer-backend-p6ni.onrender.com/resume/generate-final-pdf', payload)
       const filename = res.data.pdf_path.split('/').pop()
-      window.open(`http://127.0.0.1:8000/resume/download/${filename}`, '_blank')
+      window.open(`https://ai-resume-analyzer-backend-p6ni.onrender.com/resume/download/${filename}`, '_blank')
     } catch {
       setError('Failed to generate PDF. Please try again.')
     }
