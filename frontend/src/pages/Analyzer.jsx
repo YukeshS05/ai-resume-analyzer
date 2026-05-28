@@ -4,6 +4,8 @@ import { useDropzone } from 'react-dropzone'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
+const SCORE_THRESHOLD = 80
+
 function AnimatedScore({ score }) {
   const [current, setCurrent] = useState(0)
   const circumference = 2 * Math.PI * 54
@@ -86,6 +88,7 @@ export default function Analyzer() {
   const score = result?.ai_analysis?.overall_score ?? 0
   const scoreLabel = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : 'Needs Work'
   const scoreLabelColor = score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-amber-400' : 'text-red-400'
+  const isAboveThreshold = score >= SCORE_THRESHOLD
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -364,15 +367,89 @@ export default function Analyzer() {
                 </div>
               </motion.div>
 
+              {/* ===== THRESHOLD BASED RESUME BUILDER SECTION ===== */}
+              <motion.div custom={8} variants={fadeUp} initial="hidden" animate="visible" className="mb-6">
+                {isAboveThreshold ? (
+                  /* Score >= 80 — Optional, subtle */
+                  <div className="bg-gray-900/50 border border-emerald-500/20 rounded-2xl p-6">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                          ✨
+                        </div>
+                        <div>
+                          <h2 className="font-semibold text-white mb-1">
+                            Your resume looks great!
+                            <span className="ml-2 bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full border border-emerald-500/30">Score: {score}/100</span>
+                          </h2>
+                          <p className="text-gray-400 text-sm leading-relaxed">
+                            You're already above the ATS threshold. If you'd like, our AI can still
+                            build you a perfectly tailored resume optimized for a specific job description.
+                          </p>
+                        </div>
+                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => navigate('/build')}
+                        className="flex-shrink-0 bg-gray-800 hover:bg-gray-700 border border-emerald-500/30 text-emerald-400 font-semibold px-5 py-2.5 rounded-xl text-sm transition whitespace-nowrap"
+                      >
+                        Build Anyway →
+                      </motion.button>
+                    </div>
+                  </div>
+                ) : (
+                  /* Score < 80 — Prominent, urgent */
+                  <div className="rounded-2xl p-6 border border-red-500/30"
+                    style={{ background: 'linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03))' }}
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center text-xl">
+                        ⚠️
+                      </div>
+                      <div>
+                        <h2 className="font-bold text-white text-lg">Your Resume Needs Improvement</h2>
+                        <p className="text-red-400 text-sm">Score {score}/100 — Below the 80 point ATS threshold</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-300 text-sm leading-relaxed mb-5">
+                      Most companies use ATS systems that automatically reject resumes scoring below 80.
+                      Your current resume may not even reach a human recruiter. Let our AI rebuild it
+                      with the right keywords, structure, and formatting to pass any ATS system.
+                    </p>
+                    <div className="grid grid-cols-3 gap-3 mb-5">
+                      {[
+                        { icon: '🎯', text: 'Tailored to the job' },
+                        { icon: '🔑', text: 'Right keywords added' },
+                        { icon: '📄', text: 'Download as PDF' },
+                      ].map((item, i) => (
+                        <div key={i} className="bg-gray-900/50 rounded-xl p-3 text-center border border-gray-800">
+                          <div className="text-lg mb-1">{item.icon}</div>
+                          <div className="text-gray-400 text-xs">{item.text}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(16,185,129,0.3)' }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => navigate('/build')}
+                      className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-4 rounded-xl text-base transition shadow-lg shadow-emerald-500/20"
+                    >
+                      🚀 Build My ATS-Optimized Resume Now
+                    </motion.button>
+                  </div>
+                )}
+              </motion.div>
+
               {/* Bottom Actions */}
-              <motion.div custom={8} variants={fadeUp} initial="hidden" animate="visible"
+              <motion.div custom={9} variants={fadeUp} initial="hidden" animate="visible"
                 className="flex gap-4"
               >
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                   onClick={() => { setResult(null); setFile(null) }}
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-4 rounded-xl transition shadow-lg shadow-emerald-500/20"
+                  className="flex-1 bg-gray-900 hover:bg-gray-800 border border-gray-700 text-gray-300 font-semibold py-4 rounded-xl transition"
                 >
-                  🚀 Analyze Another Resume
+                  🔄 Analyze Another Resume
                 </motion.button>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                   onClick={() => navigate('/')}

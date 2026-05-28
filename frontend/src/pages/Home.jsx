@@ -23,7 +23,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
 
-      {/* Animated grid background */}
       <div className="fixed inset-0 z-0"
         style={{
           backgroundImage: `linear-gradient(rgba(16,185,129,0.03) 1px, transparent 1px),
@@ -32,14 +31,12 @@ export default function Home() {
         }}
       />
 
-      {/* Glow orb */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full z-0"
         style={{ background: 'radial-gradient(ellipse, rgba(16,185,129,0.08) 0%, transparent 70%)' }}
       />
 
       <div className="relative z-10">
 
-        {/* Navbar */}
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -64,7 +61,6 @@ export default function Home() {
           </div>
         </motion.nav>
 
-        {/* Hero */}
         <div className="flex flex-col items-center justify-center px-4 pt-24 pb-16 text-center">
 
           <motion.div
@@ -124,7 +120,6 @@ export default function Home() {
           </motion.p>
         </div>
 
-        {/* Stats Bar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -139,7 +134,6 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Features Grid */}
         <div className="max-w-5xl mx-auto px-4 pb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -169,7 +163,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* How it works */}
         <div className="max-w-4xl mx-auto px-4 pb-24 text-center">
           <motion.h2
             initial={{ opacity: 0 }}
@@ -203,7 +196,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CTA Banner */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -214,16 +206,15 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-4">Ready to land more interviews?</h2>
           <p className="text-gray-400 mb-8">Join thousands of job seekers who improved their resume with ResumeAI</p>
           <motion.button
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(16,185,129,0.4)' }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/analyze')}
-            className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-10 py-4 rounded-xl text-lg shadow-lg shadow-emerald-500/20 transition"
+            className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-10 py-5 rounded-xl text-lg transition-all duration-200 shadow-2xl shadow-emerald-500/30"
           >
-            Analyze My Resume Now →
+            🚀 Analyze My Resume Now →
           </motion.button>
         </motion.div>
 
-        {/* Footer */}
         <div className="border-t border-gray-800/50 px-8 py-6 flex justify-between items-center text-gray-600 text-sm">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-emerald-500 rounded flex items-center justify-center text-black font-bold text-xs">AI</div>
